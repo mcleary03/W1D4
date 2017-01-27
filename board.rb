@@ -8,10 +8,16 @@ class Board
     seed(bombs)
   end
 
+  def add_tile
+    @grid.flatten.each do |el|
+      el = Tile.create(@grid)
+    end
+  end
+
   def seed(bombs)
     bomb_pos = []
-    bombs.times { bomb_pos << [rng(@grid.length - 1), rng(@grid.length - 1)] }
-    bomb_pos.each { |position| self[pos] = :b }
+    bombs.times { bomb_pos << [rand(@grid.length - 1), rand(@grid.length - 1)] }
+    bomb_pos.each { |position| self[position] = :b }
   end
 
   def [](pos)
@@ -24,4 +30,10 @@ class Board
     @grid[row][col] = val
   end
 
+  def render
+    @grid.each{ |row| print "#{row}\n"}
+  end
 end
+
+b = Board.new
+b.render
