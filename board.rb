@@ -1,16 +1,20 @@
 require_relative "tile.rb"
 
 class Board
+  attr_reader :size
 
   def initialize(size = 9, bombs = 10)
     @size = size
     @grid = Array.new(size) { Array.new(size) }
     seed(bombs)
+    add_tiles
   end
 
-  def add_tile
-    @grid.flatten.each do |el|
-      el = Tile.create(@grid)
+  def add_tiles
+    @grid.flatten.each_index do |idx|
+      row = idx / size
+      col = idx % size
+      @grid[[row, col]] = Tile.create(@grid, row, col)
     end
   end
 
@@ -35,5 +39,7 @@ class Board
   end
 end
 
-b = Board.new
-b.render
+if __FILE__ == $PROGRAM_NAME
+  b = Board.new
+  b.render
+end
